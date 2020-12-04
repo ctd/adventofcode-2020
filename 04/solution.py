@@ -7,18 +7,7 @@ REQUIRED_FIELDS = ("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
 
 def parse_batch(b):
     kv_pattern = re.compile("(\S+):(\S+)")
-    passports = list()
-    pp = dict()
-    for l in b:
-        if l == "":
-            passports.append(pp)
-            pp = dict()
-        else:
-            for f in kv_pattern.findall(l):
-                pp[f[0]] = f[1]
-    if len(pp.keys()) > 0:
-        passports.append(pp)
-    return passports
+    return [dict(kv_pattern.findall(l)) for l in b.split("\n\n")]
 
 
 def valid_height(h):
@@ -66,7 +55,7 @@ def part2(batch):
 
 if __name__ == "__main__":
     f = open("input", "r")
-    batch = [l.rstrip() for l in f]
+    batch = f.read()
     f.close()
     print("Part 1: {}".format(part1(batch)))
     print("Part 2: {}".format(part2(batch)))
