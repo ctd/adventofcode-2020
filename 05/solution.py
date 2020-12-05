@@ -6,23 +6,17 @@ class BoardingPass:
         self.seat = seat
 
     def row(self):
-        return bin_decode(self.seat[:7], 0, 128, "F", "B")
+        return bin_decode(self.seat[:7], "F", "B")
 
     def col(self):
-        return bin_decode(self.seat[7:11], 0, 8, "L", "R")
+        return bin_decode(self.seat[7:11], "L", "R")
 
     def id(self):
         return (self.row() * 8) + self.col()
 
 
-def bin_decode(sequence, lower, upper, lower_c, upper_c):
-    for c in sequence:
-        d = int((upper - lower) / 2)
-        if c == lower_c:
-            upper -= d
-        elif c == upper_c:
-            lower += d
-    return lower
+def bin_decode(sequence, lower_c, upper_c):
+    return int(sequence.replace(lower_c, "0").replace(upper_c, "1"), 2)
 
 
 def part1(passes):
