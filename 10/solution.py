@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import copy
-
 
 def arrangements(chain, cache):
     """
@@ -35,10 +33,7 @@ def part1(adapters):
 
 
 def part2(adapters):
-    a = copy.deepcopy(adapters)
-    a.append(max(a))
-    a.sort()
-    return arrangements(a, dict())
+    return arrangements(sorted(adapters + [max(adapters)]), dict())
 
 
 if __name__ == "__main__":
