@@ -33,7 +33,7 @@ def part1(adapters):
 
 
 def part2(adapters):
-    return arrangements(sorted(adapters + [max(adapters)]), dict())
+    return arrangements(sorted(adapters + [0, max(adapters) + 3]), dict())
 
 
 if __name__ == "__main__":
