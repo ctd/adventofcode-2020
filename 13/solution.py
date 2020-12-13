@@ -2,6 +2,7 @@
 
 import numpy
 
+
 def part1(earliest, busses):
     departures = dict()
     eb = None
@@ -16,7 +17,7 @@ def part2(busses):
     b = [(i, int(x)) for i, x in filter(lambda x: x[1] != "x", enumerate(busses))]
     t = b[0][1]
     for i, (wait, bus) in enumerate(b):
-        s = numpy.lcm.reduce([x for _, x in b[:i]] or (1,1))
+        s = numpy.lcm.reduce([x for _, x in b[:i]] or (1, 1))
         while (t + wait) % bus != 0:
             t += s
     return t
