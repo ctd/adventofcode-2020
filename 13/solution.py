@@ -15,11 +15,10 @@ def part1(earliest, busses):
 def part2(busses):
     b = [(i, int(x)) for i, x in filter(lambda x: x[1] != "x", enumerate(busses))]
     t = b[0][1]
-    s = 1
     for i, (wait, bus) in enumerate(b):
+        s = numpy.lcm.reduce([x for _, x in b[:i]] or (1,1))
         while (t + wait) % bus != 0:
             t += s
-        s = numpy.lcm.reduce([x for _, x in b[:i+1]])
     return t
 
 
