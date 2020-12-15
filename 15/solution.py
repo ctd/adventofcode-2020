@@ -2,28 +2,10 @@
 
 
 def play(starting, limit):
-    last = None
-    seen = dict()
-    for i in range(min(limit, len(starting))):
-        n = starting[i]
-        try:
-            seen[n][-2] = seen[n][-1]
-            seen[n][-1] = i
-        except KeyError:
-            seen[n] = {-1: i}
-        last = n
+    seen = dict([(v, i + 1) for i, v in enumerate(starting)])
+    last = starting[-1]
     for i in range(len(starting), limit):
-        n = None
-        if -2 in seen[last]:
-            n = seen[last][-1] - seen[last][-2]
-        else:
-            n = 0
-        try:
-            seen[n][-2] = seen[n][-1]
-            seen[n][-1] = i
-        except KeyError:
-            seen[n] = {-1: i}
-        last = n
+        seen[last], last = i, i - seen.get(last, i)
     return last
 
 
