@@ -70,16 +70,10 @@ def part2(puzzle):
     while max(map(len, fields_possible.values())) > 0:
         for k in fields_possible.keys():
             v = fields_possible[k]
-            a = None
             if len(v) == 1:
-                a = v.pop()
-            for i in v:
-                if sum([i in fp for fp in fields_possible.values()]) == 1:
-                    a = i
-            if a is not None:
-                fields[k] = a
+                fields[k] = v.pop()
                 for s in fields_possible.values():
-                    s.discard(a)
+                    s.discard(fields[k])
     answer = 1
     for f in filter(lambda f: f.startswith("departure"), fields.keys()):
         answer *= puzzle["your ticket"][0][fields[f]]
