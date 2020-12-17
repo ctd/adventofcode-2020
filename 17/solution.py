@@ -2,28 +2,20 @@
 
 import collections
 import copy
+import functools
 
 
-def parse_part1(puzzlein):
-    z = 0
+def parse(puzzlein, pad):
+    padding = tuple([0] * pad)
     d = dict()
     for y, l in enumerate(puzzlein.splitlines()):
         for x, c in enumerate(l.strip()):
             if c == "#":
-                d[(z, y, x)] = True
+                d[(*padding, y, x)] = True
     return d
 
 
-def parse_part2(puzzlein):
-    w = z = 0
-    d = dict()
-    for y, l in enumerate(puzzlein.splitlines()):
-        for x, c in enumerate(l.strip()):
-            if c == "#":
-                d[(w, z, y, x)] = True
-    return d
-
-
+@functools.lru_cache(maxsize=None)
 def neighbours(t, filter_t=True):
     if len(t) == 1:
         return [tuple([t[0] + i]) for i in range(-1, 2)]
@@ -34,13 +26,13 @@ def neighbours(t, filter_t=True):
 
 
 def solve(puzzle, cycles=6):
-    answer = 0
-    p = copy.deepcopy(puzzle)
+    answer = None
+    p = puzzle
     for _ in range(cycles):
         np = dict()
         for c in set([n for a in p.keys() for n in neighbours(a, False)]):
-            neighboursActive = sum(map(lambda x: x in p.keys(), neighbours(c)))
-            if (neighboursActive == 3) or (c in p.keys() and neighboursActive == 2):
+            neighboursActive = sum(map(lambda x: p.get(x, False), neighbours(c)))
+            if (neighboursActive == 3) or (p.get(c, False) and neighboursActive == 2):
                 np[c] = True
         answer = len(np.keys())
         p = np
@@ -48,11 +40,11 @@ def solve(puzzle, cycles=6):
 
 
 def part1(puzzlein):
-    return solve(parse_part1(puzzlein))
+    return solve(parse(puzzlein, 1))
 
 
 def part2(puzzlein):
-    return solve(parse_part2(puzzlein))
+    return solve(parse(puzzlein, 2))
 
 
 if __name__ == "__main__":
