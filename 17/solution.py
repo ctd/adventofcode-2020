@@ -26,7 +26,6 @@ def neighbours(t, filter_t=True):
 
 
 def solve(puzzle, cycles=6):
-    answer = None
     p = puzzle
     for _ in range(cycles):
         np = dict()
@@ -34,9 +33,8 @@ def solve(puzzle, cycles=6):
             neighboursActive = sum(map(lambda x: p.get(x, False), neighbours(c)))
             if (neighboursActive == 3) or (p.get(c, False) and neighboursActive == 2):
                 np[c] = True
-        answer = len(np.keys())
         p = np
-    return answer
+    return len(p.keys())
 
 
 def part1(puzzlein):
