@@ -17,26 +17,20 @@ def calc(l, part2):
         sub = re.search("\([\s\d\+\*\-]+\)", l)
         if sub is None:
             break
-        l = l[: sub.start()] + calc(sub.group()[1:-1], part2) + l[sub.end() :]
+        l = l[: sub.start()] + str(calc(sub.group()[1:-1], part2)) + l[sub.end() :]
     eq = l.split(" ")
     while len(eq) > 1:
         i = eq.index("+") - 1 if part2 and "+" in eq else 0
         eq = [*eq[:i], calcop(*eq[i : i + 3]), *eq[i + 3 :]]
-    return str(eq[0])
+    return eq[0]
 
 
 def part1(homework):
-    sum = 0
-    for l in homework:
-        sum += int(calc(l, False))
-    return sum
+    return sum(map(lambda l: calc(l, part2=False), homework))
 
 
 def part2(homework):
-    sum = 0
-    for l in homework:
-        sum += int(calc(l, True))
-    return sum
+    return sum(map(lambda l: calc(l, part2=True), homework))
 
 
 def testpart1():
